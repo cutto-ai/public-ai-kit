@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Create focused, legible evidence images from screenshots.
 
-Requires Pillow. Set AI_VERIFIED_FONT to a preferred TrueType/OpenType font.
+Requires Pillow. Set CUTTO_AI_VERIFY_FONT to a preferred TrueType/OpenType font.
 """
 
 from __future__ import annotations
@@ -43,7 +43,7 @@ def parse_box(value: str) -> tuple[int, int, int, int]:
 
 
 def font_candidates() -> Iterable[str]:
-    configured = os.environ.get("AI_VERIFIED_FONT")
+    configured = os.environ.get("CUTTO_AI_VERIFY_FONT")
     if configured:
         yield configured
     yield from (

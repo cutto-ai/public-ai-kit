@@ -12,12 +12,12 @@ DISABLE_TELEMETRY=1 npx --yes skills@latest add \
   --list
 ```
 
-Install `ai-verified` globally for Codex:
+Install `cutto-ai-verify` globally for Codex:
 
 ```bash
 DISABLE_TELEMETRY=1 npx --yes skills@latest add \
   https://github.com/cutto-ai/public-ai-kit.git \
-  --skill ai-verified \
+  --skill cutto-ai-verify \
   --agent codex \
   --global \
   --copy \
@@ -28,7 +28,7 @@ DISABLE_TELEMETRY=1 npx --yes skills@latest add \
 
 | Skill | Purpose |
 | --- | --- |
-| [`ai-verified`](skills/ai-verified/SKILL.md) | Run evidence-backed, spec-driven acceptance verification and regression. |
+| [`cutto-ai-verify`](skills/cutto-ai-verify/SKILL.md) | Run evidence-backed, spec-driven acceptance verification and regression. |
 
 ## License
 

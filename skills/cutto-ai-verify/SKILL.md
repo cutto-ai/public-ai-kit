@@ -1,9 +1,9 @@
 ---
-name: ai-verified
+name: cutto-ai-verify
 description: Run evidence-backed acceptance verification for interactive products from an approved case suite, record pass/fail/needs-decision results, file deduplicated defects when authorized, and feed escaped defects back into regression cases. Use when asked to verify a feature, execute acceptance cases, rerun regression, or turn a bug into a reusable verification case. Do not use for open-ended design critique, product ideation, or code-only unit-test authoring.
 ---
 
-# AI Verified
+# Cutto AI Verify
 
 Verify that an implemented product matches an approved specification. Keep four things separate:
 
