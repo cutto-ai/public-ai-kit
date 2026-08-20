@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <path d="M0 0H1920V1080H0Z M240 0H1680V1080H240Z" fill="#000" fill-opacity="0.52" fill-rule="evenodd"/>
+  <rect x="240" y="2" width="1440" height="1076" fill="none" stroke="#FFF200" stroke-width="6"/>
+  <g font-family="Arial, sans-serif" font-weight="700" fill="#FFF" stroke="#000" stroke-width="5" paint-order="stroke">
+    <text x="32" y="58" font-size="30">16:9 MASTER / BLEED</text>
+    <text x="960" y="58" font-size="30" text-anchor="middle" fill="#FFF200">4:3 CORE CROP — KEEP TITLE &amp; FACES</text>
+    <text x="120" y="1035" font-size="28" text-anchor="middle">CROPPABLE</text>
+    <text x="1800" y="1035" font-size="28" text-anchor="middle">CROPPABLE</text>
+  </g>
+</svg>

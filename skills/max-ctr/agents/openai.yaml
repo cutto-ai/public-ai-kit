@@ -1,0 +1,4 @@
+interface:
+  display_name: "Max CTR"
+  short_description: "Design, verify, and sync high-CTR social covers"
+  default_prompt: "Use $max-ctr to design a high-CTR cover system, separate cover and publish titles, and verify the final assets across target platforms."
