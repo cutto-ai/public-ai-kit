@@ -103,6 +103,14 @@ class FileSizeGateTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Unexpected git rev-list object format", result.stderr)
 
+    def test_submodule_gitlink_does_not_require_the_submodule_commit(self):
+        self.git("update-index", "--add", "--cacheinfo", "160000," + "a" * 40 + ",module")
+        tree = self.git("write-tree")
+        sha = self.git("commit-tree", tree, "-p", self.base, "-m", "add gitlink")
+        self.git("update-ref", "HEAD", sha)
+        result = self.check()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_lfs_pointer_uses_original_size(self):
         pointer = ("version https://git-lfs.github.com/spec/v1\n"
                    + "oid sha256:" + "a" * 64 + "\nsize 52428801\n")
