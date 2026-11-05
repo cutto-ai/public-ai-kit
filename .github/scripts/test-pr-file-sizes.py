@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Exercise the file-size gate against real Git histories."""
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -62,6 +63,45 @@ class FileSizeGateTests(unittest.TestCase):
         result = self.check()
         self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
         self.assertIn("oversize.bin", result.stdout)
+
+    def test_legacy_git_still_checks_deleted_large_files(self):
+        self.write("oversize.bin", b"x" * (5 * MIB + 1))
+        self.commit()
+        (self.repo / "oversize.bin").unlink()
+        self.commit()
+        with tempfile.TemporaryDirectory() as tools_dir:
+            wrapper = Path(tools_dir) / "git"
+            real_git = shutil.which("git")
+            wrapper.write_text(
+                "#!/usr/bin/env python3\nimport os, sys\n"
+                "if sys.argv[1:2] == ['rev-list'] and '-z' in sys.argv:\n"
+                "    raise SystemExit('legacy Git cannot provide NUL object records')\n"
+                f"os.execv({real_git!r}, [{real_git!r}, *sys.argv[1:]])\n"
+            )
+            wrapper.chmod(0o755)
+            self.env["PATH"] = tools_dir + os.pathsep + self.env["PATH"]
+            result = self.check()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("oversize.bin", result.stdout)
+        self.assertIn("::error::", result.stdout)
+
+    def test_malformed_object_list_fails_closed(self):
+        self.write("new.txt", b"new")
+        self.commit()
+        with tempfile.TemporaryDirectory() as tools_dir:
+            wrapper = Path(tools_dir) / "git"
+            real_git = shutil.which("git")
+            wrapper.write_text(
+                "#!/usr/bin/env python3\nimport os, sys\n"
+                "if sys.argv[1:2] == ['rev-list'] and '--no-object-names' in sys.argv:\n"
+                "    print('unexpected format'); raise SystemExit(0)\n"
+                f"os.execv({real_git!r}, [{real_git!r}, *sys.argv[1:]])\n"
+            )
+            wrapper.chmod(0o755)
+            self.env["PATH"] = tools_dir + os.pathsep + self.env["PATH"]
+            result = self.check()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Unexpected git rev-list object format", result.stderr)
 
     def test_lfs_pointer_uses_original_size(self):
         pointer = ("version https://git-lfs.github.com/spec/v1\n"
